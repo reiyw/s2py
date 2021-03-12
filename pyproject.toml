@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "s2py"
+version = "0.1.0"
+description = ""
+authors = ["reiyw <reiyw.setuve@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+httpx = "^0.17.0"
+fake-useragent = "^0.1.11"
+whoswho = "^0.2.1"
+parsel = "^1.6.0"
+rapidfuzz = "^1.2.1"
+selenium = "^3.141.0"
+webdriver-manager = "^3.3.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
