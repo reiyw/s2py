@@ -97,23 +97,26 @@ class S2SearchClient:
             WebDriverWait(self._driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "result-page"))
             )
-            first_paper_elem = self._driver.find_element_by_xpath(
+            found_paper_elems = self._driver.find_elements_by_xpath(
                 "//div[contains(@class, 'cl-paper-row')]"
             )
         except (TimeoutException, NoSuchElementException):
             return
 
-        found_title = first_paper_elem.find_element_by_xpath("./a").text
-        found_first_author = first_paper_elem.find_element_by_xpath(
-            ".//span[@data-heap-id='heap_author_list_item']"
-        ).text
+        for found_paper_elem in found_paper_elems:
+            found_title = found_paper_elem.find_element_by_xpath("./a").text
+            found_first_author = found_paper_elem.find_element_by_xpath(
+                ".//span[@data-heap-id='heap_author_list_item']"
+            ).text
 
-        if are_same_title(title, found_title) and are_same_author(
-            first_author, found_first_author
-        ):
-            url = first_paper_elem.find_element_by_xpath("./a").get_attribute("href")
-            s2id = url.split("/")[-1]
-            return S2Id(s2id)
+            if are_same_title(title, found_title) and are_same_author(
+                first_author, found_first_author
+            ):
+                url = found_paper_elem.find_element_by_xpath("./a").get_attribute(
+                    "href"
+                )
+                s2id = url.split("/")[-1]
+                return S2Id(s2id)
 
     def search_best(self, title: str, first_author: Optional[str]) -> Optional[S2Id]:
         q = f"{title} {first_author or ''}".strip()
