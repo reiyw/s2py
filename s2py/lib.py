@@ -103,20 +103,23 @@ class S2SearchClient:
         except (TimeoutException, NoSuchElementException):
             return
 
-        for found_paper_elem in found_paper_elems:
-            found_title = found_paper_elem.find_element_by_xpath("./a").text
-            found_first_author = found_paper_elem.find_element_by_xpath(
-                ".//span[@data-heap-id='heap_author_list_item']"
-            ).text
+        try:
+            for found_paper_elem in found_paper_elems:
+                found_title = found_paper_elem.find_element_by_xpath("./a").text
+                found_first_author = found_paper_elem.find_element_by_xpath(
+                    ".//span[@data-heap-id='heap_author_list_item']"
+                ).text
 
-            if are_same_title(title, found_title) and are_same_author(
-                first_author, found_first_author
-            ):
-                url = found_paper_elem.find_element_by_xpath("./a").get_attribute(
-                    "href"
-                )
-                s2id = url.split("/")[-1]
-                return S2Id(s2id)
+                if are_same_title(title, found_title) and are_same_author(
+                    first_author, found_first_author
+                ):
+                    url = found_paper_elem.find_element_by_xpath("./a").get_attribute(
+                        "href"
+                    )
+                    s2id = url.split("/")[-1]
+                    return S2Id(s2id)
+        except NoSuchElementException:
+            return None
 
     def search_best(self, title: str, first_author: Optional[str]) -> Optional[S2Id]:
         q = f"{title} {first_author or ''}".strip()

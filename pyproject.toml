@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "s2py"
-version = "0.1.1"
+version = "0.1.2"
 description = ""
 authors = ["reiyw <reiyw.setuve@gmail.com>"]
 

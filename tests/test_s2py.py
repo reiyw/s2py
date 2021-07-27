@@ -24,3 +24,8 @@ def test_s2_client():
         "Interpretable and Compositional Relation Learning"
     )
     assert paper == paper_by_best_search
+
+
+def test_search_exact_no_author():
+    cli = S2Client()
+    assert cli.search_exact("Control of generative models for visual scenes", "") is None
